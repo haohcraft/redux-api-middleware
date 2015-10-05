@@ -1,5 +1,8 @@
 import CALL_API from './CALL_API';
 import isPlainObject from 'lodash.isplainobject';
+import _ from 'lodash';
+
+
 
 /**
  * Checks an action against the RSAA definition, returning a (possibly empty)
@@ -47,7 +50,7 @@ function validateRSAA(action) {
     return validationErrors;
   }
   for (let key in action) {
-    if (!validRootKeys.includes(key)) {
+    if (!_.includes(validRootKeys, key)) {
       validationErrors.push(`Invalid root key: ${key}`);
     }
     if (validationErrors.length) {
@@ -59,7 +62,7 @@ function validateRSAA(action) {
     return validationErrors;
   }
   for (let key in callAPI) {
-    if (!validCallAPIKeys.includes(key)) {
+    if (!_.includes(validCallAPIKeys, key)) {
       validationErrors.push(`Invalid [CALL_API] key: ${key}`);
     }
     if (validationErrors.length) {
@@ -73,7 +76,7 @@ function validateRSAA(action) {
   }
   if (typeof method !== 'string') {
     validationErrors.push('[CALL_API].method property must be a string');
-  } else if (!validMethods.includes(method.toUpperCase())) {
+  } else if (!_.includes(validMethods, method.toUpperCase())) {
     validationErrors.push(`Invalid [CALL_API].method: ${method.toUpperCase()}`);
   }
   if (!Array.isArray(types) || types.length !== 3) {
